@@ -14,6 +14,13 @@
             background: #000;
             overflow: hidden;
         }
+        
+        #video-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+        
         #video-container {
             position: absolute;
             width: 100%;
@@ -23,27 +30,25 @@
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
         }
+        
         #video-container.loaded {
             opacity: 1;
         }
         
-        /* Button Container - Hidden by default */
+        /* Button Container */
         .button-container {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            z-index: 1000;
+            z-index: 9999; /* Ensure it's above the video */
             display: flex;
             gap: 10px;
             opacity: 0;
             transition: opacity 0.3s ease;
-            pointer-events: none; /* Ensures hover doesn't flicker */
         }
         
-        /* Show buttons when hovering over the body (full video area) */
-        body:hover .button-container {
+        #video-wrapper:hover .button-container {
             opacity: 1;
-            pointer-events: all;
         }
         
         .control-button {
@@ -59,6 +64,7 @@
             justify-content: center;
             font-size: 20px;
             transition: all 0.3s ease;
+            z-index: 9999;
         }
         
         .control-button:hover {
@@ -78,7 +84,7 @@
             border-radius: 10px;
             border: 1px solid white;
             color: white;
-            z-index: 2000;
+            z-index: 10000;
             max-width: 80%;
             width: 400px;
         }
@@ -102,12 +108,14 @@
     </style>
 </head>
 <body>
-    <div id="video-container"></div>
-    
-    <!-- Control Buttons -->
-    <div class="button-container">
-        <button class="control-button" onclick="showInfo()" title="Information">ⓘ</button>
-        <button class="control-button" onclick="location.reload()" title="Change Channel">⟳</button>
+    <div id="video-wrapper">
+        <div id="video-container"></div>
+        
+        <!-- Control Buttons -->
+        <div class="button-container">
+            <button class="control-button" onclick="showInfo()" title="Information">ⓘ</button>
+            <button class="control-button" onclick="location.reload()" title="Change Channel">⟳</button>
+        </div>
     </div>
     
     <!-- Info Modal -->
