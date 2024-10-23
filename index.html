@@ -27,7 +27,7 @@
             opacity: 1;
         }
         
-        /* Button Styles */
+        /* Button Container - Hidden by default */
         .button-container {
             position: fixed;
             bottom: 20px;
@@ -35,6 +35,15 @@
             z-index: 1000;
             display: flex;
             gap: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none; /* Ensures hover doesn't flicker */
+        }
+        
+        /* Show buttons when hovering over the body (full video area) */
+        body:hover .button-container {
+            opacity: 1;
+            pointer-events: all;
         }
         
         .control-button {
@@ -108,7 +117,6 @@
             <h2>About This Channel</h2>
             <p>This is an endless stream of curated video content. Each time you refresh or click the "Change Channel" button, you'll get a random starting point in the video.</p>
             <p>Created with ♥️ using the Vimeo API.</p>
-            <!-- Add your custom information here -->
         </div>
     </div>
 
