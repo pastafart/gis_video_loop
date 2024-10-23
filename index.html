@@ -26,11 +26,10 @@
         }
         
         #video-wrapper::before {
-            content: 'welcome :)';
+            content: 'welcone :)';
             position: absolute;
             color: white;
             font-family: Arial, sans-serif;
-            font-weight: bold;
             font-size: 24px;
         }
         
@@ -39,8 +38,6 @@
             width: 100%;
             height: auto;
             aspect-ratio: 16/9;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
             background: #FF69B4;
         }
 
@@ -51,10 +48,6 @@
             width: 100%;
             height: 100%;
             background: #FF69B4 !important;
-        }
-        
-        #video-container.loaded {
-            opacity: 1;
         }
         
         .button-container {
@@ -200,13 +193,7 @@
             playsinline: true
         });
 
-        player.on('error', function(error) {
-            console.error('Vimeo player error:', error);
-        });
-
         player.on('loaded', function() {
-            videoContainer.classList.add('loaded');
-            
             player.getDuration().then(function(duration) {
                 const randomTime = Math.floor(Math.random() * duration);
                 return player.setCurrentTime(randomTime);
