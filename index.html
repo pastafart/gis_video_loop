@@ -6,13 +6,12 @@
     <title>GIRL INTERNET SHOW</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vimeo-player/2.20.1/player.min.js"></script>
     <style>
-        /* Previous styles remain the same */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            background: #000;
+            background: #FF69B4; /* Changed to match modal pink */
             overflow: hidden;
         }
         
@@ -20,6 +19,7 @@
             position: relative;
             width: 100%;
             height: 100vh;
+            background: #FF69B4; /* Added to ensure consistent pink */
         }
         
         #video-container {
@@ -30,12 +30,19 @@
             left: 0;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
+            background: #FF69B4; /* Added to ensure consistent pink */
+        }
+
+        /* Style the Vimeo iframe directly */
+        iframe {
+            background: #FF69B4 !important; /* Force pink background on iframe */
         }
         
         #video-container.loaded {
             opacity: 1;
         }
         
+        /* Rest of the styles remain the same */
         .button-container {
             position: fixed;
             bottom: 20px;
@@ -166,7 +173,6 @@
     </div>
 
     <script>
-        // Previous JavaScript remains the same
         const videoContainer = document.getElementById('video-container');
         
         const player = new Vimeo.Player('video-container', {
