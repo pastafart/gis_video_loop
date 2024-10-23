@@ -81,46 +81,47 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 105, 180, 0.95); /* Vibrant pink background */
-            padding: 30px;
+            background: rgba(255, 105, 180, 0.95);
+            padding: 20px;
             border-radius: 10px;
             border: 2px solid #FFC0CB;
             color: white;
             z-index: 10000;
-            max-width: 80%;
-            width: 400px;
+            width: 300px; /* Reduced width */
             box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
         }
         
         .modal-content {
-            margin-bottom: 20px;
-            line-height: 1.8;
             font-family: Arial, sans-serif;
             text-align: center;
         }
         
         .modal-content h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            font-family: Arial, sans-serif;
             font-weight: bold;
+            font-size: 20px;
+            margin: 0 0 15px 0; /* Reduced margin */
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
         
         .modal-content p {
-            font-size: 16px;
-            margin-bottom: 15px;
+            font-family: Arial, sans-serif;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 1.4;
+            margin: 0; /* Remove default paragraph margin */
         }
         
         .close-button {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 8px;
+            right: 8px;
             background: none;
             border: none;
             color: white;
             cursor: pointer;
-            font-size: 20px;
+            font-size: 18px;
             transition: transform 0.3s ease;
         }
         
