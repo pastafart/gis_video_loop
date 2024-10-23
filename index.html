@@ -14,36 +14,72 @@
             background: #000;
             overflow: hidden;
         }
-
         #video-container {
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        #video-container.loaded {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
     <div id="video-container"></div>
-
     <script>
+        const videoContainer = document.getElementById('video-container');
+        
+        // Initialize the Vimeo player with better error handling
         const player = new Vimeo.Player('video-container', {
             id: '1017463789',
             background: true,
             loop: true,
             autoplay: true,
             muted: true,
-            responsive: true
+            responsive: true,
+            dnt: true, // Enable Do Not Track
+            playsinline: true // Better mobile support
         });
 
+        // Handle player errors
+        player.on('error', function(error) {
+            console.error('Vimeo player error:', error);
+        });
+
+        // Fade in video when loaded and start at random time
         player.on('loaded', function() {
+            videoContainer.classList.add('loaded');
+            
             player.getDuration().then(function(duration) {
                 const randomTime = Math.floor(Math.random() * duration);
-                player.setCurrentTime(randomTime).then(function() {
-                    player.play();
-                });
+                return player.setCurrentTime(randomTime);
+            })
+            .then(function() {
+                return player.play();
+            })
+            .catch(function(error) {
+                console.error('Error setting up video:', error);
             });
+        });
+
+        // Ensure video stays playing and muted
+        player.on('pause', function() {
+            player.play();
+        });
+
+        player.on('volumechange', function() {
+            player.setVolume(0);
+        });
+
+        // Handle page visibility changes
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                player.play();
+            }
         });
     </script>
 </body>
