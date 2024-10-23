@@ -6,6 +6,7 @@
     <title>GIRL INTERNET SHOW</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vimeo-player/2.20.1/player.min.js"></script>
     <style>
+        /* Previous styles remain the same... */
         body, html {
             margin: 0;
             padding: 0;
@@ -35,7 +36,6 @@
             opacity: 1;
         }
         
-        /* Button Container */
         .button-container {
             position: fixed;
             bottom: 20px;
@@ -74,7 +74,6 @@
             transform: scale(1.1);
         }
         
-        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -87,7 +86,7 @@
             border: 2px solid #FFC0CB;
             color: white;
             z-index: 10000;
-            width: 300px; /* Reduced width */
+            width: 300px;
             box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
         }
         
@@ -100,9 +99,12 @@
             font-family: Arial, sans-serif;
             font-weight: bold;
             font-size: 20px;
-            margin: 0 0 15px 0; /* Reduced margin */
+            margin: 0 0 15px 0;
             letter-spacing: 1px;
             text-transform: uppercase;
+            text-decoration: underline; /* Added underline */
+            text-underline-offset: 5px; /* Spacing between text and underline */
+            padding-bottom: 2px; /* Small padding to balance the underline */
         }
         
         .modal-content p {
@@ -110,7 +112,7 @@
             font-weight: normal;
             font-size: 14px;
             line-height: 1.4;
-            margin: 0; /* Remove default paragraph margin */
+            margin: 0;
         }
         
         .close-button {
@@ -134,14 +136,12 @@
     <div id="video-wrapper">
         <div id="video-container"></div>
         
-        <!-- Control Buttons -->
         <div class="button-container">
             <button class="control-button" onclick="showInfo()" title="Information">ⓘ</button>
             <button class="control-button" onclick="location.reload()" title="Change Channel">⟳</button>
         </div>
     </div>
     
-    <!-- Info Modal -->
     <div id="infoModal" class="modal">
         <button class="close-button" onclick="hideInfo()">×</button>
         <div class="modal-content">
@@ -153,7 +153,6 @@
     <script>
         const videoContainer = document.getElementById('video-container');
         
-        // Initialize the Vimeo player with better error handling
         const player = new Vimeo.Player('video-container', {
             id: '1017463789',
             background: true,
@@ -165,12 +164,10 @@
             playsinline: true
         });
 
-        // Handle player errors
         player.on('error', function(error) {
             console.error('Vimeo player error:', error);
         });
 
-        // Fade in video when loaded and start at random time
         player.on('loaded', function() {
             videoContainer.classList.add('loaded');
             
@@ -186,7 +183,6 @@
             });
         });
 
-        // Ensure video stays playing and muted
         player.on('pause', function() {
             player.play();
         });
@@ -195,14 +191,12 @@
             player.setVolume(0);
         });
 
-        // Handle page visibility changes
         document.addEventListener('visibilitychange', function() {
             if (document.visibilityState === 'visible') {
                 player.play();
             }
         });
 
-        // Modal functions
         function showInfo() {
             document.getElementById('infoModal').style.display = 'block';
         }
@@ -211,7 +205,6 @@
             document.getElementById('infoModal').style.display = 'none';
         }
 
-        // Close modal when clicking outside
         window.onclick = function(event) {
             const modal = document.getElementById('infoModal');
             if (event.target == modal) {
