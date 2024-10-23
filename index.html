@@ -25,12 +25,13 @@
             justify-content: center;
         }
         
-        #video-wrapper::before {
-            content: 'welcone :)';
+        .welcome-text {
             position: absolute;
             color: white;
             font-family: Arial, sans-serif;
             font-size: 24px;
+            z-index: 1;
+            pointer-events: none;
         }
         
         #video-container {
@@ -158,6 +159,7 @@
 </head>
 <body>
     <div id="video-wrapper">
+        <div class="welcome-text">welcone :)</div>
         <div id="video-container"></div>
         
         <div class="button-container">
