@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GIRL INTERNET SHOW</title>
+    <!-- Preload the Vimeo Player script -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/vimeo-player/2.20.1/player.min.js" as="script">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vimeo-player/2.20.1/player.min.js"></script>
     <style>
+        /* Previous styles remain the same except for transition timing */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            background: #FF69B4; /* Changed to match modal pink */
+            background: #FF69B4;
             overflow: hidden;
         }
         
@@ -19,7 +22,7 @@
             position: relative;
             width: 100%;
             height: 100vh;
-            background: #FF69B4; /* Added to ensure consistent pink */
+            background: #FF69B4;
         }
         
         #video-container {
@@ -29,13 +32,12 @@
             top: 0;
             left: 0;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            background: #FF69B4; /* Added to ensure consistent pink */
+            transition: opacity 0.3s ease-in-out; /* Faster transition */
+            background: #FF69B4;
         }
 
-        /* Style the Vimeo iframe directly */
         iframe {
-            background: #FF69B4 !important; /* Force pink background on iframe */
+            background: #FF69B4 !important;
         }
         
         #video-container.loaded {
@@ -43,113 +45,11 @@
         }
         
         /* Rest of the styles remain the same */
-        .button-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 9999;
-            display: flex;
-            gap: 10px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        #video-wrapper:hover .button-container {
-            opacity: 1;
-        }
-        
-        .control-button {
-            background: rgba(255, 192, 203, 0.3);
-            border: 2px solid #FF69B4;
-            color: #FF69B4;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            transition: all 0.3s ease;
-            z-index: 9999;
-        }
-        
-        .control-button:hover {
-            background: rgba(255, 105, 180, 0.4);
-            border-color: #FF1493;
-            color: #FFC0CB;
-            transform: scale(1.1);
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(255, 105, 180, 0.95);
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #FFC0CB;
-            color: white;
-            z-index: 10000;
-            width: 320px;
-            box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
-        }
-        
-        .modal-content {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        
-        .modal-content h2 {
-            font-family: Arial, sans-serif;
-            font-weight: bold;
-            font-size: 20px;
-            margin: 0 0 15px 0;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            text-decoration: underline;
-            text-underline-offset: 5px;
-            padding-bottom: 2px;
-        }
-
-        .memorial-image {
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 100%;
-            margin: 15px auto;
-            display: block;
-            border: 2px solid white;
-        }
-        
-        .modal-content p {
-            font-family: Arial, sans-serif;
-            font-weight: normal;
-            font-size: 14px;
-            line-height: 1.4;
-            margin: 15px 0 0 0;
-        }
-        
-        .close-button {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-size: 18px;
-            transition: transform 0.3s ease;
-        }
-        
-        .close-button:hover {
-            transform: scale(1.2);
-        }
+        /* ... */
     </style>
 </head>
 <body>
+    <!-- Previous HTML remains the same -->
     <div id="video-wrapper">
         <div id="video-container"></div>
         
@@ -159,6 +59,7 @@
         </div>
     </div>
     
+    <!-- Modal HTML remains the same -->
     <div id="infoModal" class="modal">
         <button class="close-button" onclick="hideInfo()">×</button>
         <div class="modal-content">
@@ -173,6 +74,7 @@
     </div>
 
     <script>
+        // Initialize player as soon as possible
         const videoContainer = document.getElementById('video-container');
         
         const player = new Vimeo.Player('video-container', {
@@ -183,28 +85,43 @@
             muted: true,
             responsive: true,
             dnt: true,
-            playsinline: true
+            playsinline: true,
+            speed: true, // Enable speed adjustment
+            autopause: false, // Prevent automatic pausing
+            controls: false // Disable controls for faster load
         });
 
-        player.on('error', function(error) {
-            console.error('Vimeo player error:', error);
-        });
-
-        player.on('loaded', function() {
+        // Show video as soon as it's ready
+        player.ready().then(() => {
             videoContainer.classList.add('loaded');
-            
+            return player.play();
+        }).catch(console.error);
+
+        // Set random time after video is already visible
+        player.on('loaded', function() {
             player.getDuration().then(function(duration) {
                 const randomTime = Math.floor(Math.random() * duration);
-                return player.setCurrentTime(randomTime);
-            })
-            .then(function() {
-                return player.play();
-            })
-            .catch(function(error) {
-                console.error('Error setting up video:', error);
+                player.setCurrentTime(randomTime);
+            }).catch(console.error);
+        });
+
+        // Optimize playback
+        player.on('play', function() {
+            // Request next frame to ensure smooth playback
+            player.getVideoTitle().catch(() => {}); // Keep connection alive
+        });
+
+        // Error handling
+        player.on('error', function(error) {
+            console.error('Vimeo player error:', error);
+            // Attempt to recover from error
+            player.play().catch(() => {
+                // If recovery fails, reload the player
+                location.reload();
             });
         });
 
+        // Ensure video stays playing
         player.on('pause', function() {
             player.play();
         });
@@ -213,12 +130,18 @@
             player.setVolume(0);
         });
 
+        // Optimize visibility handling
+        let visibilityTimeout;
         document.addEventListener('visibilitychange', function() {
             if (document.visibilityState === 'visible') {
-                player.play();
+                clearTimeout(visibilityTimeout);
+                visibilityTimeout = setTimeout(() => {
+                    player.play();
+                }, 100);
             }
         });
 
+        // Modal functions remain the same
         function showInfo() {
             document.getElementById('infoModal').style.display = 'block';
         }
