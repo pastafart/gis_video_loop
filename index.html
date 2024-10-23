@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continuous Loop</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vimeo-player/2.20.1/player.min.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+        }
+
+        #video-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="video-container"></div>
+
+    <script>
+        const player = new Vimeo.Player('video-container', {
+            id: '1017463789',
+            background: true,
+            loop: true,
+            autoplay: true,
+            muted: true,
+            responsive: true
+        });
+
+        player.on('loaded', function() {
+            player.getDuration().then(function(duration) {
+                const randomTime = Math.floor(Math.random() * duration);
+                player.setCurrentTime(randomTime).then(function() {
+                    player.play();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
