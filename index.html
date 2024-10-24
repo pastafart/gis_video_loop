@@ -234,12 +234,12 @@
         
         const player = new Vimeo.Player('video-container', {
             id: '828438095',
+            background: true,  // Added back to hide default UI
             loop: true,
             autoplay: true,
             responsive: true,
             dnt: true,
-            playsinline: true,
-            controls: true
+            playsinline: true
         });
 
         function changeChannel() {
