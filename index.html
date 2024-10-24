@@ -154,7 +154,7 @@
         
         <div class="button-container">
             <button class="control-button" onclick="showInfo()" title="Information">ⓘ</button>
-            <button class="control-button" onclick="location.reload()" title="Change Channel">⟳</button>
+            <button class="control-button" onclick="changeChannel()" title="Change Channel">⟳</button>
         </div>
     </div>
     
@@ -173,6 +173,7 @@
 
     <script>
         const videoContainer = document.getElementById('video-container');
+        let videoDuration = 0;
         
         const player = new Vimeo.Player('video-container', {
             id: '1017463789',
@@ -185,12 +186,25 @@
             playsinline: true
         });
 
+        function changeChannel() {
+            if (videoDuration > 0) {
+                const randomTime = Math.floor(Math.random() * videoDuration);
+                player.setCurrentTime(randomTime)
+                    .then(function() {
+                        return player.play();
+                    })
+                    .catch(function(error) {
+                        console.error('Error changing channel:', error);
+                    });
+            }
+        }
+
         player.on('loaded', function() {
             player.getDuration().then(function(duration) {
-                // Calculate video position based on time of day
+                videoDuration = duration;
                 const now = new Date();
                 const secondsInDay = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
-                const videoPosition = secondsInDay % duration; // Loop through video length
+                const videoPosition = secondsInDay % duration;
                 return player.setCurrentTime(videoPosition);
             })
             .then(function() {
