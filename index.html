@@ -234,7 +234,6 @@
         
         const player = new Vimeo.Player('video-container', {
             id: '1017463789',
-            background: true,
             loop: true,
             autoplay: true,
             responsive: true,
@@ -274,6 +273,9 @@
         });
 
         player.on('loaded', function() {
+            // Set initial volume
+            player.setVolume(1);
+            
             player.getDuration().then(function(duration) {
                 videoDuration = duration;
                 const now = new Date();
