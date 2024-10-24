@@ -79,6 +79,57 @@
             color: #FFC0CB;
             transform: scale(1.1);
         }
+
+        .volume-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .volume-slider-container {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 192, 203, 0.3);
+            border: 2px solid #FF69B4;
+            border-radius: 20px;
+            padding: 10px 5px;
+            display: none;
+        }
+
+        .volume-slider-container.show {
+            display: block;
+        }
+
+        .volume-slider {
+            -webkit-appearance: none;
+            width: 4px;
+            height: 100px;
+            background: #FF69B4;
+            outline: none;
+            writing-mode: bt-lr;
+            -webkit-appearance: slider-vertical;
+            transform: rotate(180deg);
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+        }
         
         .modal {
             display: none;
@@ -154,6 +205,12 @@
         
         <div class="button-container">
             <button class="control-button" onclick="showInfo()" title="Information">ⓘ</button>
+            <div class="volume-container">
+                <button class="control-button" onclick="toggleVolumeSlider()" title="Volume">♪</button>
+                <div class="volume-slider-container">
+                    <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1" oninput="updateVolume(this.value)">
+                </div>
+            </div>
             <button class="control-button" onclick="changeChannel()" title="Change Channel">⟳</button>
         </div>
     </div>
@@ -197,6 +254,24 @@
                     });
             }
         }
+
+        function toggleVolumeSlider() {
+            const slider = document.querySelector('.volume-slider-container');
+            slider.classList.toggle('show');
+        }
+
+        function updateVolume(value) {
+            player.setVolume(value);
+        }
+
+        // Close volume slider when clicking outside
+        document.addEventListener('click', function(event) {
+            const volumeContainer = document.querySelector('.volume-container');
+            const slider = document.querySelector('.volume-slider-container');
+            if (!volumeContainer.contains(event.target)) {
+                slider.classList.remove('show');
+            }
+        });
 
         player.on('loaded', function() {
             player.getDuration().then(function(duration) {
