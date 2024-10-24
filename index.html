@@ -187,8 +187,11 @@
 
         player.on('loaded', function() {
             player.getDuration().then(function(duration) {
-                const randomTime = Math.floor(Math.random() * duration);
-                return player.setCurrentTime(randomTime);
+                // Calculate video position based on time of day
+                const now = new Date();
+                const secondsInDay = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+                const videoPosition = secondsInDay % duration; // Loop through video length
+                return player.setCurrentTime(videoPosition);
             })
             .then(function() {
                 return player.play();
