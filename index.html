@@ -233,12 +233,13 @@
         let videoDuration = 0;
         
         const player = new Vimeo.Player('video-container', {
-            id: '1017463789',
+            id: '828438095',
             loop: true,
             autoplay: true,
             responsive: true,
             dnt: true,
-            playsinline: true
+            playsinline: true,
+            controls: true
         });
 
         function changeChannel() {
@@ -263,7 +264,6 @@
             player.setVolume(value);
         }
 
-        // Close volume slider when clicking outside
         document.addEventListener('click', function(event) {
             const volumeContainer = document.querySelector('.volume-container');
             const slider = document.querySelector('.volume-slider-container');
@@ -272,10 +272,11 @@
             }
         });
 
-        player.on('loaded', function() {
-            // Set initial volume
+        player.ready().then(function() {
             player.setVolume(1);
-            
+        });
+
+        player.on('loaded', function() {
             player.getDuration().then(function(duration) {
                 videoDuration = duration;
                 const now = new Date();
