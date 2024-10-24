@@ -31,7 +31,6 @@
             font-family: Arial, sans-serif;
             font-size: 24px;
             z-index: 1;
-            pointer-events: none;
         }
         
         #video-container {
@@ -41,6 +40,11 @@
             aspect-ratio: 16/9;
             background: #FF69B4;
             z-index: 2;
+            opacity: 0;
+        }
+
+        #video-container.loaded {
+            opacity: 1;
         }
 
         iframe {
@@ -173,70 +177,4 @@
         <button class="close-button" onclick="hideInfo()">×</button>
         <div class="modal-content">
             <h2>GIRL INTERNET SHOW</h2>
-            <img 
-                src="https://filmfreeway-production-storage-01-connector.filmfreeway.com/press_kits/headshots/002/256/588/original/8f5205df61-headshot.jpg?1674168904" 
-                alt="Kati Kelli" 
-                class="memorial-image"
-            >
-            <p>This website serves as a memorial tribute to the digital legacy of internet superstar Kati Kelli, who passed away in 2019.</p>
-        </div>
-    </div>
-
-    <script>
-        const videoContainer = document.getElementById('video-container');
-        
-        const player = new Vimeo.Player('video-container', {
-            id: '1017463789',
-            background: true,
-            loop: true,
-            autoplay: true,
-            muted: true,
-            responsive: true,
-            dnt: true,
-            playsinline: true
-        });
-
-        player.on('loaded', function() {
-            player.getDuration().then(function(duration) {
-                const randomTime = Math.floor(Math.random() * duration);
-                return player.setCurrentTime(randomTime);
-            })
-            .then(function() {
-                return player.play();
-            })
-            .catch(function(error) {
-                console.error('Error setting up video:', error);
-            });
-        });
-
-        player.on('pause', function() {
-            player.play();
-        });
-
-        player.on('volumechange', function() {
-            player.setVolume(0);
-        });
-
-        document.addEventListener('visibilitychange', function() {
-            if (document.visibilityState === 'visible') {
-                player.play();
-            }
-        });
-
-        function showInfo() {
-            document.getElementById('infoModal').style.display = 'block';
-        }
-
-        function hideInfo() {
-            document.getElementById('infoModal').style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('infoModal');
-            if (event.target == modal) {
-                hideInfo();
-            }
-        }
-    </script>
-</body>
-</html>
+            <img
