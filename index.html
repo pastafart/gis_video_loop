@@ -234,12 +234,20 @@
         
         const player = new Vimeo.Player('video-container', {
             id: '828438095',
-            background: true,  // Added back to hide default UI
+            background: true,
             loop: true,
             autoplay: true,
             responsive: true,
             dnt: true,
             playsinline: true
+        });
+
+        // Simplified video loading and playback
+        player.on('loaded', function() {
+            player.getDuration().then(function(duration) {
+                videoDuration = duration;
+                player.play();
+            });
         });
 
         function changeChannel() {
@@ -274,22 +282,6 @@
 
         player.ready().then(function() {
             player.setVolume(1);
-        });
-
-        player.on('loaded', function() {
-            player.getDuration().then(function(duration) {
-                videoDuration = duration;
-                const now = new Date();
-                const secondsInDay = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
-                const videoPosition = secondsInDay % duration;
-                return player.setCurrentTime(videoPosition);
-            })
-            .then(function() {
-                return player.play();
-            })
-            .catch(function(error) {
-                console.error('Error setting up video:', error);
-            });
         });
 
         player.on('pause', function() {
