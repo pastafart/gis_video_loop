@@ -180,7 +180,6 @@
             background: true,
             loop: true,
             autoplay: true,
-            muted: true,
             responsive: true,
             dnt: true,
             playsinline: true
@@ -217,10 +216,6 @@
 
         player.on('pause', function() {
             player.play();
-        });
-
-        player.on('volumechange', function() {
-            player.setVolume(0);
         });
 
         document.addEventListener('visibilitychange', function() {
